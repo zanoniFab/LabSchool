@@ -9,24 +9,32 @@ public class Aplicacao {
     public static void main(String[] args) {
         RepositorioDados repositorioDados = new RepositorioDados();
         Display display = new Display();
-        menuPrincipal(display);
+        menuPrincipal(display, repositorioDados);
     }
 
-    private static void menuPrincipal(Display display) {
+    private static void menuPrincipal(Display display, RepositorioDados repositorioDados) {
         display.exibirMenuPrincipal();
         OpcoesMenu opcao = display.obterOpcao();
         while (opcao != OpcoesMenu.SAIR) {
             switch (opcao) {
                 case INCLUIR_CADASTRO:
-                    menuCadastro(display);
+                    menuCadastro(display, repositorioDados);
                     break;
                 case REGISTRAR_ATENDIMENTO:
-                    display.receberAtendimento();
+                    int[] dadosRecebidos = display.receberDadosAtendimento();
+                    System.out.println(repositorioDados.getAlunoPorId(dadosRecebidos[0]));
+                    System.out.println(repositorioDados.getFuncionarioPorId(dadosRecebidos[1]));
+                    repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
+                    repositorioDados.getFuncionarioPorId(dadosRecebidos[1]).contarAtendimento();
+                    System.out.println("Atendimento registrado com sucesso!");
+                    System.out.println(repositorioDados.getAlunoPorId(dadosRecebidos[0]));
+                    System.out.println(repositorioDados.getFuncionarioPorId(dadosRecebidos[1]));
+
                 case SAIR:
                     System.exit(0);
                     break;
                 default:
-                    menuPrincipal(display);
+                    menuPrincipal(display, repositorioDados);
                     break;
             }
             opcao = display.obterOpcao();
@@ -34,28 +42,29 @@ public class Aplicacao {
         }
     }
 
-    private static void menuCadastro(Display display) {
+    private static void menuCadastro(Display display, RepositorioDados repositorioDados) {
         display.exibirMenuCadastro();
         OpcoesMenu opcao = display.obterOpcao();
         while (opcao != OpcoesMenu.VOLTAR) {
             switch (opcao) {
                 case INCLUIR_ALUNO:
-                    RepositorioDados.addAluno(display.cadastrarAluno(display.cadastrarPessoa()));
+                    repositorioDados.addAluno(display.cadastrarAluno(display.cadastrarPessoa()));
                     break;
                 case INCLUIR_PROFESSOR:
-                    RepositorioDados.addProfessor(display.cadastrarProfessor(display.cadastrarPessoa()));
+                    repositorioDados.addProfessor(display.cadastrarProfessor(display.cadastrarPessoa()));
                     break;
                 case INCLUIR_FUNCIONARIO:
-                    RepositorioDados.addFuncionario(display.cadastrarFuncionario(display.cadastrarPessoa()));
+                    repositorioDados.addFuncionario(display.cadastrarFuncionario(display.cadastrarPessoa()));
                     break;
                 default:
-                    menuCadastro(display);
+                    menuCadastro(display, repositorioDados);
                     break;
             }
             display.exibirMenuCadastro();
             opcao = display.obterOpcao();
         }
-        menuPrincipal(display);
+        menuPrincipal(display, repositorioDados);
     }
+
 }
 

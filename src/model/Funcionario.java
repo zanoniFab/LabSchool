@@ -12,6 +12,13 @@ public class Funcionario extends Pessoa {
         this.totalAtendimentos = 0;
     }
 
+    @Override
+    public String toString() {
+        return "Funcionario{" +
+                "totalAtendimentos=" + totalAtendimentos +
+                "} " + super.toString();
+    }
+
     public int getTotalAtendimentos() {
         return this.totalAtendimentos;
     }

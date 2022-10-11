@@ -1,9 +1,12 @@
 package cli;
 
 import model.*;
+import repository.RepositorioDados;
 
+import javax.sound.midi.Soundbank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Display {
@@ -45,8 +48,9 @@ public class Display {
         System.out.print("Informe a situação da matrícula do aluno (1-Ativa; 2-Irregular; 3- Atendimento Pedagogico; 4-Inativo): ");
         int opcao = scanner.nextInt();
         SituacaoMatricula situacaoMatricula = SituacaoMatricula.obterCodigo(opcao);
-        System.out.printf("Cadastro realizado com sucesso! ID ALUNO: %d\n",pessoa.getCodigo());
-        return new Aluno(pessoa, nota, situacaoMatricula);
+        Aluno aluno = new Aluno(pessoa, nota, situacaoMatricula);
+        System.out.printf("Cadastro realizado com sucesso! ID ALUNO: %d\n",aluno.getCodigo());
+        return aluno;
     }
     public Professor cadastrarProfessor(Pessoa pessoa) {
         Scanner scanner = new Scanner(System.in);
@@ -64,23 +68,24 @@ public class Display {
         } else if (opcaoEstado.equals("i")) {
             estado = false;
         }
-        System.out.printf("Cadastro realizado com sucesso! ID PROFESSOR: %d\n",pessoa.getCodigo());
-        return new Professor(pessoa, formacao, expDesenvolvimento, estado);
+        Professor professor = new Professor(pessoa, formacao, expDesenvolvimento, estado);
+        System.out.printf("Cadastro realizado com sucesso! ID PROFESSOR: %d\n",professor.getCodigo());
+        return professor;
     }
     public Funcionario cadastrarFuncionario (Pessoa pessoa){
-        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",pessoa.getCodigo());
-        return new Funcionario(pessoa);
+        Funcionario funcionario = new Funcionario(pessoa);
+        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",funcionario.getCodigo());
+        return funcionario;
     }
 
-    public void receberAtendimento() {
+    public int[] receberDadosAtendimento() {
+        int[] ids= new int[2];
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe o ID do Aluno: ");
-        int idAluno = scanner.nextInt();
+        ids[0] = scanner.nextInt();
         System.out.print("Informe o ID do Pedagogo: ");
-        int idPedagogo = scanner.nextInt();
-        registrarAtendimento(idAluno,idPedagogo);
+        ids[1] = scanner.nextInt();
+        return ids;
     }
-    public void registrarAtendimento (int idAluno, int idPedagogo){
 
-    }
 }

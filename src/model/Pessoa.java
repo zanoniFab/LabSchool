@@ -32,4 +32,15 @@ public class Pessoa {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", cpf=" + cpf +
+                ", telefone=" + telefone +
+                ", dataNascimento=" + dataNascimento +
+                '}';
+    }
 }
