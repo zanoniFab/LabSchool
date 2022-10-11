@@ -1537,7 +1537,7 @@
 											"top": 399,
 											"width": 240.2587890625,
 											"height": 13,
-											"text": "RepositorioDados"
+											"text": "repository.RepositorioDados"
 										},
 										{
 											"_type": "LabelView",
@@ -2382,7 +2382,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "RepositorioDados",
+					"name": "repository.RepositorioDados",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",

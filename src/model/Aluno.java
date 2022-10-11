@@ -1,11 +1,26 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Aluno extends Pessoa {
+    private SituacaoMatricula situacaoMatricula;
     private float nota;
-    public Aluno(int codigo, float nota) {
-        super(codigo);
+    private int atendimentosPedagogicos=0;
+    public Aluno(Pessoa pessoa, float nota, SituacaoMatricula situacaoMatricula) {
+        super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
+        this.situacaoMatricula=situacaoMatricula;
         this.nota=nota;
     }
+
+    @Override
+    public String toString() {
+        return "Aluno{" +
+                "situacaoMatricula=" + situacaoMatricula +
+                ", nota=" + nota +
+                ", atendimentosPedagogicos=" + atendimentosPedagogicos +
+                "} " + super.toString();}
+    public void addAtendimento(){this.atendimentosPedagogicos++;}
+    public void alterarSituacaoMatricula(SituacaoMatricula situacao){this.situacaoMatricula=situacao;}
     public void incluirNota(float nota){
         this.nota=nota;
     }
