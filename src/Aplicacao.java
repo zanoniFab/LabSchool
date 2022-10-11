@@ -1,8 +1,5 @@
 import cli.Display;
-import model.Aluno;
-import model.Funcionario;
-import model.OpcoesMenu;
-import model.Pessoa;
+import model.*;
 import repository.RepositorioDados;
 
 public class Aplicacao {
@@ -22,13 +19,9 @@ public class Aplicacao {
                     break;
                 case REGISTRAR_ATENDIMENTO:
                     int[] dadosRecebidos = display.receberDadosAtendimento();
-                    System.out.println(repositorioDados.getAlunoPorId(dadosRecebidos[0]));
-                    System.out.println(repositorioDados.getFuncionarioPorId(dadosRecebidos[1]));
                     repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
                     repositorioDados.getFuncionarioPorId(dadosRecebidos[1]).contarAtendimento();
                     System.out.println("Atendimento registrado com sucesso!");
-                    System.out.println(repositorioDados.getAlunoPorId(dadosRecebidos[0]));
-                    System.out.println(repositorioDados.getFuncionarioPorId(dadosRecebidos[1]));
 
                 case SAIR:
                     System.exit(0);
@@ -56,6 +49,12 @@ public class Aplicacao {
                 case INCLUIR_FUNCIONARIO:
                     repositorioDados.addFuncionario(display.cadastrarFuncionario(display.cadastrarPessoa()));
                     break;
+                case ALTERAR_SITUACAO_MATRICULA_ALUNO:
+                    int[] dadosRecebidos = display.receberDadosAlteracaoMatricula();
+                    Aluno aluno = repositorioDados.getAlunoPorId(dadosRecebidos[0]);
+                    System.out.println(aluno);
+                    aluno.alterarSituacaoMatricula(SituacaoMatricula.obterCodigo(dadosRecebidos[1]));
+                    System.out.println(aluno);
                 default:
                     menuCadastro(display, repositorioDados);
                     break;

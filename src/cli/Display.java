@@ -77,7 +77,6 @@ public class Display {
         System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",funcionario.getCodigo());
         return funcionario;
     }
-
     public int[] receberDadosAtendimento() {
         int[] ids= new int[2];
         Scanner scanner = new Scanner(System.in);
@@ -86,6 +85,15 @@ public class Display {
         System.out.print("Informe o ID do Pedagogo: ");
         ids[1] = scanner.nextInt();
         return ids;
+    }
+    public int[] receberDadosAlteracaoMatricula(){
+        int[] dados = new int[2];
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Informe o ID do aluno: ");
+        dados[0] = scanner.nextInt();
+        System.out.println("Informe qual a situação atual da matrícula (1-Ativo; 2-Irregular; 3-Atendimento Pedagogico; 4-Inativo): ");
+        dados[1]=scanner.nextInt();
+        return dados;
     }
 
 }
