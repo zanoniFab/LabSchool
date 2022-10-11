@@ -11,4 +11,3 @@ public enum SituacaoMatricula {
         return listaOpcoes[opcao - 1];
     }
 }
-//poder mudar a situação sempre que necessário

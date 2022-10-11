@@ -2,6 +2,8 @@ import cli.Display;
 import model.*;
 import repository.RepositorioDados;
 
+import java.util.List;
+
 public class Aplicacao {
     public static void main(String[] args) {
         RepositorioDados repositorioDados = new RepositorioDados();
@@ -22,6 +24,30 @@ public class Aplicacao {
                     repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
                     repositorioDados.getFuncionarioPorId(dadosRecebidos[1]).contarAtendimento();
                     System.out.println("Atendimento registrado com sucesso!");
+                case EMITIR_RELATORIOS:
+                    switch (EmitirRelatorio.obterCodigo(display.exibirMenuRelatorios())) {
+                        case ALUNOS:
+                            List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
+                            for (int i = 0; listaAlunos.size()> i; i++){
+                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaAlunos.get(i).getCodigo(),listaAlunos.get(i).getNome(),listaAlunos.get(i).getCpf());
+                            }
+                            break;
+                        case PROFESSORES:
+                            List<Professor> listaProfessores = repositorioDados.getListaProfessores();
+                            for (int i = 0; listaProfessores.size()> i; i++){
+                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaProfessores.get(i).getCodigo(),listaProfessores.get(i).getNome(),listaProfessores.get(i).getCpf());
+                            }
+                            break;
+                        case PEDAGOGOS:
+                            List<Funcionario> listaFuncionarios = repositorioDados.getListaFuncionarios();
+                            for (int i = 0; listaFuncionarios.size()> i; i++){
+                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaFuncionarios.get(i).getCodigo(),listaFuncionarios.get(i).getNome(),listaFuncionarios.get(i).getCpf());
+                            }
+                            break;
+                        case TODOS:
+                            List<Pessoa> listaPessoas = repositorioDados.getListaPessoas();
+                            break;
+                    }
 
                 case SAIR:
                     System.exit(0);

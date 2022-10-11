@@ -49,9 +49,10 @@ public class Display {
         int opcao = scanner.nextInt();
         SituacaoMatricula situacaoMatricula = SituacaoMatricula.obterCodigo(opcao);
         Aluno aluno = new Aluno(pessoa, nota, situacaoMatricula);
-        System.out.printf("Cadastro realizado com sucesso! ID ALUNO: %d\n",aluno.getCodigo());
+        System.out.printf("Cadastro realizado com sucesso! ID ALUNO: %d\n", aluno.getCodigo());
         return aluno;
     }
+
     public Professor cadastrarProfessor(Pessoa pessoa) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe a formação academica (1-Graduação incompleta; 2-Graduação completa; 3-Mestrado; 4-Doutorado;): ");
@@ -69,16 +70,18 @@ public class Display {
             estado = false;
         }
         Professor professor = new Professor(pessoa, formacao, expDesenvolvimento, estado);
-        System.out.printf("Cadastro realizado com sucesso! ID PROFESSOR: %d\n",professor.getCodigo());
+        System.out.printf("Cadastro realizado com sucesso! ID PROFESSOR: %d\n", professor.getCodigo());
         return professor;
     }
-    public Funcionario cadastrarFuncionario (Pessoa pessoa){
+
+    public Funcionario cadastrarFuncionario(Pessoa pessoa) {
         Funcionario funcionario = new Funcionario(pessoa);
-        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",funcionario.getCodigo());
+        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n", funcionario.getCodigo());
         return funcionario;
     }
+
     public int[] receberDadosAtendimento() {
-        int[] ids= new int[2];
+        int[] ids = new int[2];
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe o ID do Aluno: ");
         ids[0] = scanner.nextInt();
@@ -86,14 +89,21 @@ public class Display {
         ids[1] = scanner.nextInt();
         return ids;
     }
-    public int[] receberDadosAlteracaoMatricula(){
+
+    public int[] receberDadosAlteracaoMatricula() {
         int[] dados = new int[2];
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe o ID do aluno: ");
         dados[0] = scanner.nextInt();
         System.out.println("Informe qual a situação atual da matrícula (1-Ativo; 2-Irregular; 3-Atendimento Pedagogico; 4-Inativo): ");
-        dados[1]=scanner.nextInt();
+        dados[1] = scanner.nextInt();
         return dados;
     }
 
+    public int exibirMenuRelatorios() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Informe qual categoria você deseja no relatório: \n1-Alunos;\n2-Professores;\n3-Funcionarios;\n4-Todos;\n");
+        int opcao = scanner.nextInt();
+        return opcao;
+    }
 }
