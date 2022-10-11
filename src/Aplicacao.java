@@ -20,6 +20,8 @@ public class Aplicacao {
                 case INCLUIR_CADASTRO:
                     menuCadastro(display);
                     break;
+                case REGISTRAR_ATENDIMENTO:
+                    display.receberAtendimento();
                 case SAIR:
                     System.exit(0);
                     break;
@@ -38,13 +40,13 @@ public class Aplicacao {
         while (opcao != OpcoesMenu.VOLTAR) {
             switch (opcao) {
                 case INCLUIR_ALUNO:
-                    display.cadastrarAluno(display.cadastrarPessoa());
+                    RepositorioDados.addAluno(display.cadastrarAluno(display.cadastrarPessoa()));
                     break;
                 case INCLUIR_PROFESSOR:
-                    display.cadastrarProfessor(display.cadastrarPessoa());
+                    RepositorioDados.addProfessor(display.cadastrarProfessor(display.cadastrarPessoa()));
                     break;
                 case INCLUIR_FUNCIONARIO:
-                    display.cadastrarFuncionario(display.cadastrarPessoa());
+                    RepositorioDados.addFuncionario(display.cadastrarFuncionario(display.cadastrarPessoa()));
                     break;
                 default:
                     menuCadastro(display);

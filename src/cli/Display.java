@@ -9,11 +9,11 @@ import java.util.Scanner;
 public class Display {
 
     public void exibirMenuPrincipal() {
-        System.out.printf("1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n8-Sair;\n");
+        System.out.printf("1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
     }
 
     public void exibirMenuCadastro() {
-        System.out.printf("\n4-Incluir/Alterar Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n7-Voltar\n");
+        System.out.printf("\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n8-Voltar\n7-Alterar Situação Matricula Aluno;\n");
     }
 
     public OpcoesMenu obterOpcao() {
@@ -71,5 +71,16 @@ public class Display {
         System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",pessoa.getCodigo());
         return new Funcionario(pessoa);
     }
+
+    public void receberAtendimento() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Informe o ID do Aluno: ");
+        int idAluno = scanner.nextInt();
+        System.out.print("Informe o ID do Pedagogo: ");
+        int idPedagogo = scanner.nextInt();
+        registrarAtendimento(idAluno,idPedagogo);
+    }
+    public void registrarAtendimento (int idAluno, int idPedagogo){
+
+    }
 }
-// cadastrar um atendimento: deve perguntar qual pedagogo e qual aluno envolvido no atendimento
