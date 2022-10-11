@@ -6,8 +6,8 @@ public enum FormacaoAcademica {
     MESTRADO,
     DOUTORADO;
 
-    public static OpcoesMenu obterCodigo(int opcao) {
-        OpcoesMenu[] listaOpcoes = OpcoesMenu.values();
+    public static FormacaoAcademica obterCodigo(int opcao) {
+        FormacaoAcademica[] listaOpcoes = FormacaoAcademica.values();
         return listaOpcoes[opcao - 1];
     }
 }

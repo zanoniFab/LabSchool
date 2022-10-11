@@ -1,9 +1,6 @@
 package cli;
 
-import model.Aluno;
-import model.OpcoesMenu;
-import model.Pessoa;
-import model.SituacaoMatricula;
+import model.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,31 +26,50 @@ public class Display {
 
     public Pessoa cadastrarPessoa() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Informe o nome: ");
+        System.out.print("Informe o nome: ");
         String nome = scanner.nextLine();
-        System.out.println("Informe o telefone: ");
+        System.out.print("Informe o telefone: ");
         Long telefone = scanner.nextLong();
-        System.out.println("Informe a data de nascimento (DD/MM/AAAA): ");
+        System.out.print("Informe a data de nascimento (DD/MM/AAAA): ");
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataDeNascimento = LocalDate.parse(scanner.next(), formatador);
-        System.out.println("Informe o CPF (somente números): ");
+        System.out.print("Informe o CPF (somente números): ");
         Long cpf = scanner.nextLong();
         return new Pessoa(nome, cpf, telefone, dataDeNascimento);
     }
 
     public Aluno cadastrarAluno(Pessoa pessoa) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Informe a nota do aluno: ");
+        System.out.print("Informe a nota do aluno: ");
         float nota = scanner.nextFloat();
-        System.out.println("Informe a situação da matrícula do aluno: \n1-Ativa;\n2- Irregular;\n3- Atendimento Pedagogico;\n4-Inativo;");
+        System.out.print("Informe a situação da matrícula do aluno (1-Ativa; 2-Irregular; 3- Atendimento Pedagogico; 4-Inativo): ");
         int opcao = scanner.nextInt();
         SituacaoMatricula situacaoMatricula = SituacaoMatricula.obterCodigo(opcao);
-        System.out.println("Cadastro realizado com sucesso");
-
+        System.out.printf("Cadastro realizado com sucesso! ID ALUNO: %d\n",pessoa.getCodigo());
         return new Aluno(pessoa, nota, situacaoMatricula);
-
     }
-
-
+    public Professor cadastrarProfessor(Pessoa pessoa) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Informe a formação academica (1-Graduação incompleta; 2-Graduação completa; 3-Mestrado; 4-Doutorado;): ");
+        int opcao = scanner.nextInt();
+        FormacaoAcademica formacao = FormacaoAcademica.obterCodigo(opcao);
+        System.out.print("Informe a experiencia em desenvolvimento (1-Front-end; 2-Back-end; 3-Full-stack): ");
+        opcao = scanner.nextInt();
+        ExperienciaDesenvolvimento expDesenvolvimento = ExperienciaDesenvolvimento.obterCodigo(opcao);
+        System.out.println("Informe o estado do professor Ativo/Inativo (A/I): ");
+        String opcaoEstado = scanner.next().toLowerCase();
+        boolean estado = false;
+        if (opcaoEstado.equals("a")) {
+            estado = true;
+        } else if (opcaoEstado.equals("i")) {
+            estado = false;
+        }
+        System.out.printf("Cadastro realizado com sucesso! ID PROFESSOR: %d\n",pessoa.getCodigo());
+        return new Professor(pessoa, formacao, expDesenvolvimento, estado);
+    }
+    public Funcionario cadastrarFuncionario (Pessoa pessoa){
+        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n",pessoa.getCodigo());
+        return new Funcionario(pessoa);
+    }
 }
 // cadastrar um atendimento: deve perguntar qual pedagogo e qual aluno envolvido no atendimento

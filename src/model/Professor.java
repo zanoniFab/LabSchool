@@ -5,10 +5,11 @@ public class Professor extends Pessoa {
     private ExperienciaDesenvolvimento expDesenvolvimento;
     private boolean estado;
 
-    public Professor(Pessoa pessoa, FormacaoAcademica formacao, ExperienciaDesenvolvimento expDesenvolvimento) {
+    public Professor(Pessoa pessoa, FormacaoAcademica formacao, ExperienciaDesenvolvimento expDesenvolvimento, boolean estado) {
         super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
         this.formacaoAcademica = formacao;
         this.expDesenvolvimento = expDesenvolvimento;
+        this.estado=estado;
     }
 
     public FormacaoAcademica getFormacaoAcademica() {

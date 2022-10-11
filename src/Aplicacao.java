@@ -11,22 +11,27 @@ public class Aplicacao {
         Display display = new Display();
         menuPrincipal(display);
     }
-    private static void menuPrincipal (Display display){
+
+    private static void menuPrincipal(Display display) {
         display.exibirMenuPrincipal();
-        switch (display.obterOpcao()){
-            case INCLUIR_CADASTRO:
-                menuCadastro(display);
-                break;
-
-            case SAIR:
-                System.exit(0);
-                break;
-            default:
-                menuPrincipal(display);
-                break;
+        OpcoesMenu opcao = display.obterOpcao();
+        while (opcao != OpcoesMenu.SAIR) {
+            switch (opcao) {
+                case INCLUIR_CADASTRO:
+                    menuCadastro(display);
+                    break;
+                case SAIR:
+                    System.exit(0);
+                    break;
+                default:
+                    menuPrincipal(display);
+                    break;
+            }
+            opcao = display.obterOpcao();
+            display.exibirMenuPrincipal();
         }
-
     }
+
     private static void menuCadastro(Display display) {
         display.exibirMenuCadastro();
         OpcoesMenu opcao = display.obterOpcao();
@@ -36,10 +41,11 @@ public class Aplicacao {
                     display.cadastrarAluno(display.cadastrarPessoa());
                     break;
                 case INCLUIR_PROFESSOR:
-                    display.cadastrarPessoa();
+                    display.cadastrarProfessor(display.cadastrarPessoa());
                     break;
-                //  case INCLUIR_FUNCIONARIO:
-
+                case INCLUIR_FUNCIONARIO:
+                    display.cadastrarFuncionario(display.cadastrarPessoa());
+                    break;
                 default:
                     menuCadastro(display);
                     break;

@@ -1,7 +1,7 @@
 package model;
 
 public class Funcionario extends Pessoa {
-    int totalAtendimentos = 0;
+    private int totalAtendimentos;
 
     public void contarAtendimento() {
         this.totalAtendimentos++;
@@ -9,6 +9,7 @@ public class Funcionario extends Pessoa {
 
     public Funcionario(Pessoa pessoa) {
         super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
+        this.totalAtendimentos = 0;
     }
 
     public int getTotalAtendimentos() {
