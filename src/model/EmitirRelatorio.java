@@ -4,7 +4,10 @@ public enum EmitirRelatorio {
     ALUNOS,
     PROFESSORES,
     PEDAGOGOS,
-    TODOS;
+    TODOS,
+    VOLTAR,
+    SAIR;
+
     public static EmitirRelatorio obterCodigo(int opcao) {
         EmitirRelatorio[] listaOpcoes = EmitirRelatorio.values();
         return listaOpcoes[opcao - 1];

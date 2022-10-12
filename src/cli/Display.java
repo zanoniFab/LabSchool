@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class Display {
 
     public void exibirMenuPrincipal() {
-        System.out.printf("1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
+        System.out.printf("(Menu Principal)\n1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
     }
 
     public void exibirMenuCadastro() {
-        System.out.printf("\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n8-Voltar\n7-Alterar Situação Matricula Aluno;\n");
+        System.out.printf("(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
     }
 
     public OpcoesMenu obterOpcao() {
@@ -102,7 +102,7 @@ public class Display {
 
     public int exibirMenuRelatorios() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Informe qual categoria você deseja no relatório: \n1-Alunos;\n2-Professores;\n3-Funcionarios;\n4-Todos;\n");
+        System.out.println("(Menu Relatorios)\nInforme qual categoria você deseja no relatório: \n1-Alunos;\n2-Professores;\n3-Funcionarios;\n4-Todos;\n5-Voltar;\n6-Sair\n");
         int opcao = scanner.nextInt();
         return opcao;
     }

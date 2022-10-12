@@ -24,31 +24,10 @@ public class Aplicacao {
                     repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
                     repositorioDados.getFuncionarioPorId(dadosRecebidos[1]).contarAtendimento();
                     System.out.println("Atendimento registrado com sucesso!");
+                    break;
                 case EMITIR_RELATORIOS:
-                    switch (EmitirRelatorio.obterCodigo(display.exibirMenuRelatorios())) {
-                        case ALUNOS:
-                            List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
-                            for (int i = 0; listaAlunos.size()> i; i++){
-                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaAlunos.get(i).getCodigo(),listaAlunos.get(i).getNome(),listaAlunos.get(i).getCpf());
-                            }
-                            break;
-                        case PROFESSORES:
-                            List<Professor> listaProfessores = repositorioDados.getListaProfessores();
-                            for (int i = 0; listaProfessores.size()> i; i++){
-                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaProfessores.get(i).getCodigo(),listaProfessores.get(i).getNome(),listaProfessores.get(i).getCpf());
-                            }
-                            break;
-                        case PEDAGOGOS:
-                            List<Funcionario> listaFuncionarios = repositorioDados.getListaFuncionarios();
-                            for (int i = 0; listaFuncionarios.size()> i; i++){
-                                System.out.printf("ID: %d; Nome: %s; CPF: %d;",listaFuncionarios.get(i).getCodigo(),listaFuncionarios.get(i).getNome(),listaFuncionarios.get(i).getCpf());
-                            }
-                            break;
-                        case TODOS:
-                            List<Pessoa> listaPessoas = repositorioDados.getListaPessoas();
-                            break;
-                    }
-
+                    menuEmitirRelatorio(display, repositorioDados);
+                    break;
                 case SAIR:
                     System.exit(0);
                     break;
@@ -56,9 +35,49 @@ public class Aplicacao {
                     menuPrincipal(display, repositorioDados);
                     break;
             }
-            opcao = display.obterOpcao();
             display.exibirMenuPrincipal();
+            opcao = display.obterOpcao();
+
         }
+    }
+
+    private static void menuEmitirRelatorio(Display display, RepositorioDados repositorioDados) {
+        EmitirRelatorio opcaoRelatorio = EmitirRelatorio.obterCodigo(display.exibirMenuRelatorios());
+        while (opcaoRelatorio != EmitirRelatorio.VOLTAR) {
+            switch (opcaoRelatorio) {
+                case ALUNOS:
+                    List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
+                    for (int i = 0; listaAlunos.size() > i; i++) {
+                        System.out.printf("ID: %d; Nome: %s; CPF: %d;", listaAlunos.get(i).getCodigo(), listaAlunos.get(i).getNome(), listaAlunos.get(i).getCpf());
+                    }
+                    break;
+                case PROFESSORES:
+                    List<Professor> listaProfessores = repositorioDados.getListaProfessores();
+                    for (int i = 0; listaProfessores.size() > i; i++) {
+                        System.out.printf("ID: %d; Nome: %s; CPF: %d;", listaProfessores.get(i).getCodigo(), listaProfessores.get(i).getNome(), listaProfessores.get(i).getCpf());
+                    }
+                    break;
+                case PEDAGOGOS:
+                    List<Funcionario> listaFuncionarios = repositorioDados.getListaFuncionarios();
+                    for (int i = 0; listaFuncionarios.size() > i; i++) {
+                        System.out.printf("ID: %d; Nome: %s; CPF: %d;", listaFuncionarios.get(i).getCodigo(), listaFuncionarios.get(i).getNome(), listaFuncionarios.get(i).getCpf());
+                    }
+                    break;
+                case TODOS:
+                    List<Pessoa> listaPessoas = repositorioDados.getListaPessoas();
+                    for (int i = 0; listaPessoas.size() > i; i++) {
+                        System.out.printf("ID: %d; Nome: %s; CPF: %d;", listaPessoas.get(i).getCodigo(), listaPessoas.get(i).getNome(), listaPessoas.get(i).getCpf());
+                    }
+                    break;
+                case SAIR:
+                    System.exit(0);
+                    break;
+                default:
+                    menuEmitirRelatorio(display, repositorioDados);
+                    break;
+            }
+        }
+
     }
 
     private static void menuCadastro(Display display, RepositorioDados repositorioDados) {
@@ -78,9 +97,7 @@ public class Aplicacao {
                 case ALTERAR_SITUACAO_MATRICULA_ALUNO:
                     int[] dadosRecebidos = display.receberDadosAlteracaoMatricula();
                     Aluno aluno = repositorioDados.getAlunoPorId(dadosRecebidos[0]);
-                    System.out.println(aluno);
                     aluno.alterarSituacaoMatricula(SituacaoMatricula.obterCodigo(dadosRecebidos[1]));
-                    System.out.println(aluno);
                 default:
                     menuCadastro(display, repositorioDados);
                     break;
