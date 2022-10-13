@@ -14,7 +14,6 @@ public class RepositorioDados {
     private List<Funcionario> listaFuncionarios = new ArrayList<>();
     private List<Pessoa> listaPessoas = new ArrayList<>();
 
-
     public void addAluno(Aluno aluno) {
         this.listaPessoas.add(aluno);
         this.listaAlunos.add(aluno);

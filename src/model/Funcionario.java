@@ -1,10 +1,15 @@
 package model;
 
-public class Funcionario extends Pessoa {
-    private int totalAtendimentos;
+public class Funcionario extends Pessoa implements Comparable<Funcionario> {
+    private Integer totalAtendimentos;
 
     public void contarAtendimento() {
         this.totalAtendimentos++;
+    }
+
+    @Override
+    public int compareTo (Funcionario funcionario){
+        return this.totalAtendimentos.compareTo(funcionario.totalAtendimentos);
     }
 
     public Funcionario(Pessoa pessoa) {

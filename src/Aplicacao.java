@@ -2,6 +2,7 @@ import cli.Display;
 import model.*;
 import repository.RepositorioDados;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Aplicacao {
@@ -23,6 +24,7 @@ public class Aplicacao {
                     int[] dadosRecebidos = display.receberDadosAtendimento();
                     repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
                     repositorioDados.getFuncionarioPorId(dadosRecebidos[1]).contarAtendimento();
+                    System.out.print("Atendimento registrado com sucesso!");
                     display.aguarde();
                     break;
                 case EMITIR_RELATORIOS:
@@ -85,10 +87,7 @@ public class Aplicacao {
                     menuRelatoriosProfessores(display,repositorioDados);
                     break;
                 case FUNCIONARIOS:
-                    List<Funcionario> listaFuncionarios = repositorioDados.getListaFuncionarios();
-                    for (Funcionario listaFuncionario : listaFuncionarios) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]", listaFuncionario.getCodigo(), listaFuncionario.getNome(), listaFuncionario.getCpf());
-                    }
+                    menuRelatoriosFuncionarios(display,repositorioDados);
                     display.aguarde();
                     break;
                 case TODOS:
@@ -109,62 +108,27 @@ public class Aplicacao {
         }
     }
 
-    private static void menuRelatoriosProfessoresExperiencia(Display display, RepositorioDados repositorioDados) {
-        ExperienciaDesenvolvimento opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
-        while (opcaoExperiencia != ExperienciaDesenvolvimento.VOLTAR){
-            switch (opcaoExperiencia){
-                case FRONT_END:
-                case BACK_END:
-                case FULL_STACK:
-                    emitirRelatorioExperiencia(opcaoExperiencia,repositorioDados);
-                case TODOS:
-                    List<Professor> listaProfessor = repositorioDados.getListaProfessores();
-                    for(Professor professor : listaProfessor){
-                        System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
+    private static void menuRelatoriosFuncionarios(Display display, RepositorioDados repositorioDados) {
+        RelatoriosFuncionarios opcaoRelatorioFuncionario = RelatoriosFuncionarios.obterCodigo(display.exibirMenuRelatoriosFuncionarios());
+        while (opcaoRelatorioFuncionario != RelatoriosFuncionarios.VOLTAR){
+            switch (opcaoRelatorioFuncionario){
+                case TODOS_PEDAGOGOS:
+                    for (Funcionario listaFuncionario : repositorioDados.getListaFuncionarios()) {
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]", listaFuncionario.getCodigo(), listaFuncionario.getNome(), listaFuncionario.getCpf());
                     }
+                    display.aguarde();
+                    break;
+                case ORDENADOS_TOTAL_ATENDIMENTOS:
+                    emitirRelatorioAtendimentoFuncionario(repositorioDados);
                     display.aguarde();
                     break;
                 case SAIR:
                     System.exit(0);
-            }
-            opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
-        }
-        menuRelatoriosProfessores(display,repositorioDados);
-
-    }
-
-    private static void menuRelatoriosProfessores(Display display, RepositorioDados repositorioDados) {
-        RelatoriosProfessores opcaoRelatorioProfessor = RelatoriosProfessores.obterCodigo(display.exibirMenuRelatoriosProfessores());
-        while (opcaoRelatorioProfessor != RelatoriosProfessores.VOLTAR){
-            switch (opcaoRelatorioProfessor){
-                case TODOS_PROFESSORES:
-                    List<Professor> listaProfessores = repositorioDados.getListaProfessores();
-                    for (Professor listaProfessore : listaProfessores) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]", listaProfessore.getCodigo(), listaProfessore.getNome(), listaProfessore.getCpf());
-                    }
-                    display.aguarde();
-                    break;
-                case EXP_DESENVOLVIMENTO:
-                    menuRelatoriosProfessoresExperiencia(display,repositorioDados);
-                    break;
-                case SAIR:
-                    System.exit(0);
-                default:
-                    menuRelatoriosProfessores(display, repositorioDados);
                     break;
             }
-            opcaoRelatorioProfessor = RelatoriosProfessores.obterCodigo(display.exibirMenuRelatoriosProfessores());
+            opcaoRelatorioFuncionario = RelatoriosFuncionarios.obterCodigo(display.exibirMenuRelatoriosFuncionarios());
         }
         menuEmitirRelatorio(display,repositorioDados);
-    }
-
-    private static void emitirRelatorioExperiencia(ExperienciaDesenvolvimento opcaoExperiencia, RepositorioDados repositorioDados) {
-        List<Professor> listaProfessores = repositorioDados.getListaProfessores();
-        for (Professor professor : listaProfessores) {
-            if (opcaoExperiencia == professor.getExpDesenvolvimento()) {
-                System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
-            }
-        }
     }
 
     private static void menuRelatoriosAlunos(Display display, RepositorioDados repositorioDados) {
@@ -182,7 +146,8 @@ public class Aplicacao {
                     display.aguarde();
                     break;
                 case ORDENADOS_TOTAL_ATENDIMENTO:
-
+                    emitirRelatorioAtendimentoAluno(repositorioDados);
+                    display.aguarde();
                     break;
                 case SAIR:
                     System.exit(0);
@@ -195,7 +160,6 @@ public class Aplicacao {
         }
         menuEmitirRelatorio(display, repositorioDados);
     }
-
     private static void menuRelatoriosAlunosSituacaoMatricula(Display display, RepositorioDados repositorioDados) {
         SituacaoMatricula opcaoSituacao= SituacaoMatricula.obterCodigo(display.exibirMenuRelatorioSituacaoMatricula());
         while (opcaoSituacao != SituacaoMatricula.VOLTAR) {
@@ -224,7 +188,6 @@ public class Aplicacao {
         }
         menuRelatoriosAlunos(display, repositorioDados);
     }
-
     private static void emitirRelatorioSituacaoMatricula(SituacaoMatricula opcaoInformada, RepositorioDados repositorioDados) {
         List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
         for (Aluno aluno : listaAlunos) {
@@ -233,4 +196,76 @@ public class Aplicacao {
             }
         }
     }
+    private static void menuRelatoriosProfessores(Display display, RepositorioDados repositorioDados) {
+        RelatoriosProfessores opcaoRelatorioProfessor = RelatoriosProfessores.obterCodigo(display.exibirMenuRelatoriosProfessores());
+        while (opcaoRelatorioProfessor != RelatoriosProfessores.VOLTAR){
+            switch (opcaoRelatorioProfessor){
+                case TODOS_PROFESSORES:
+                    List<Professor> listaProfessores = repositorioDados.getListaProfessores();
+                    for (Professor listaProfessore : listaProfessores) {
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]", listaProfessore.getCodigo(), listaProfessore.getNome(), listaProfessore.getCpf());
+                    }
+                    display.aguarde();
+                    break;
+                case EXP_DESENVOLVIMENTO:
+                    menuRelatoriosProfessoresExperiencia(display,repositorioDados);
+                    break;
+                case SAIR:
+                    System.exit(0);
+                default:
+                    menuRelatoriosProfessores(display, repositorioDados);
+                    break;
+            }
+            opcaoRelatorioProfessor = RelatoriosProfessores.obterCodigo(display.exibirMenuRelatoriosProfessores());
+        }
+        menuEmitirRelatorio(display,repositorioDados);
+    }
+    private static void menuRelatoriosProfessoresExperiencia(Display display, RepositorioDados repositorioDados) {
+        ExperienciaDesenvolvimento opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
+        while (opcaoExperiencia != ExperienciaDesenvolvimento.VOLTAR){
+            switch (opcaoExperiencia){
+                case FRONT_END:
+                case BACK_END:
+                case FULL_STACK:
+                    emitirRelatorioExperiencia(opcaoExperiencia,repositorioDados);
+                case TODOS:
+                    List<Professor> listaProfessor = repositorioDados.getListaProfessores();
+                    for(Professor professor : listaProfessor){
+                        System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
+                    }
+                    display.aguarde();
+                    break;
+                case SAIR:
+                    System.exit(0);
+            }
+            opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
+        }
+        menuRelatoriosProfessores(display,repositorioDados);
+
+    }
+    private static void emitirRelatorioExperiencia(ExperienciaDesenvolvimento opcaoExperiencia, RepositorioDados repositorioDados) {
+        List<Professor> listaProfessores = repositorioDados.getListaProfessores();
+        for (Professor professor : listaProfessores) {
+            if (opcaoExperiencia == professor.getExpDesenvolvimento()) {
+                System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
+            }
+        }
+    }
+    private static void emitirRelatorioAtendimentoAluno (RepositorioDados repositorioDados){
+        List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
+        Collections.sort(listaAlunos);
+        for (Aluno aluno : listaAlunos){
+            System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n",aluno.getCodigo(),aluno.getNome(),aluno.getAtendimentosPedagogicos());
+        }
+    }
+    private static void emitirRelatorioAtendimentoFuncionario (RepositorioDados repositorioDados){
+        List<Funcionario> listaFuncionarios = repositorioDados.getListaFuncionarios();
+        Collections.sort(listaFuncionarios);
+        for (Funcionario funcionario : listaFuncionarios){
+            System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n",funcionario.getCodigo(),funcionario.getNome(),funcionario.getTotalAtendimentos());
+        }
+    }
+
+
+
 }
