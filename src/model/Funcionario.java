@@ -9,7 +9,7 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
 
     @Override
     public int compareTo (Funcionario funcionario){
-        return this.totalAtendimentos.compareTo(funcionario.totalAtendimentos);
+        return funcionario.totalAtendimentos.compareTo(this.totalAtendimentos);
     }
 
     public Funcionario(Pessoa pessoa) {
