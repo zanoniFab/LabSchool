@@ -28,8 +28,8 @@ public class Professor extends Pessoa {
         this.expDesenvolvimento = expDesenvolvimento;
     }
 
-    public boolean isEstado() {
-        return estado;
+    public String getEstado() {
+        return String.valueOf(this.estado);
     }
 
     public void setEstado(boolean estado) {

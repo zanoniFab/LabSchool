@@ -20,7 +20,10 @@ public class Aluno extends Pessoa {
                 ", atendimentosPedagogicos=" + atendimentosPedagogicos +
                 "} " + super.toString();}
     public void addAtendimento(){this.atendimentosPedagogicos++;}
-    public void alterarSituacaoMatricula(SituacaoMatricula situacao){this.situacaoMatricula=situacao;}
+    public void alterarSituacaoMatricula(SituacaoMatricula situacao){
+        this.situacaoMatricula=situacao;
+        System.out.print("\nMatrícula atualizada com sucesso!\n");
+    }
     public void incluirNota(float nota){
         this.nota=nota;
     }

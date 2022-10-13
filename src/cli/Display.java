@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class Display {
 
     public void exibirMenuPrincipal() {
-        System.out.printf("(Menu Principal)\n1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
+        System.out.printf("\n(Menu Principal)\n1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
     }
 
     public void exibirMenuCadastro() {
-        System.out.printf("(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
+        System.out.printf("\n(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
     }
 
     public OpcoesMenu obterOpcao() {
@@ -61,7 +61,7 @@ public class Display {
         System.out.print("Informe a experiencia em desenvolvimento (1-Front-end; 2-Back-end; 3-Full-stack): ");
         opcao = scanner.nextInt();
         ExperienciaDesenvolvimento expDesenvolvimento = ExperienciaDesenvolvimento.obterCodigo(opcao);
-        System.out.println("Informe o estado do professor Ativo/Inativo (A/I): ");
+        System.out.print("Informe o estado do professor Ativo/Inativo (A/I): ");
         String opcaoEstado = scanner.next().toLowerCase();
         boolean estado = false;
         if (opcaoEstado.equals("a")) {
@@ -102,34 +102,41 @@ public class Display {
 
     public int exibirMenuRelatorios() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("(Menu Relatorios)\nSobre qual categoria você deseja emitir um relatório: \n1-Alunos;\n2-Professores;\n3-Funcionários;\n4-Todos;\n5-Voltar;\n6-Sair\n");
+        System.out.print("\n(Menu Relatorios)\nSobre qual categoria você deseja emitir um relatório: \n1-Alunos;\n2-Professores;\n3-Funcionários;\n4-Todos;\n5-Voltar;\n6-Sair\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
     public int exibirMenuRelatoriosAlunos(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("(Relatorios Alunos) \nInforme a opção desejada:\n1-Lista com todos alunos (ID,NOME,CPF);\n2-Alunos por situação de matricula;");
+        System.out.print("\n(Relatorios Alunos) \nInforme a opção desejada:\n1-Lista com todos alunos (ID,NOME,CPF);\n2-Alunos por situação de matricula;");
         System.out.print("\n3-Ordenados por total de Atendimentos Pedagogicos;\n4-Voltar;\n5-Sair\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
     public int exibirMenuRelatorioSituacaoMatricula(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Relatório de Alunos por Situação de Matrícula:\n1-Ativo;\n2-Irregular;\n3-Atendimento Pedagógico;\n4-Inativo;\n5-Todos;\n6-Voltar;\n7-Sair\n");
+        System.out.print("\nRelatório de Alunos por Situação de Matrícula:\n1-Ativo;\n2-Irregular;\n3-Atendimento Pedagógico;\n4-Inativo;\n5-Todos;\n6-Voltar;\n7-Sair\n");
+        System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
     public int exibirMenuRelatoriosProfessores(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("(Relatorios Professores)\nInforme a opção desejada:\n1-Lista com todos professores (ID,NOME,CPF);\n2-Professores por experiência em desenvolvimento;\n");
-        System.out.println("3-Voltar;\n4-Sair\n");
+        System.out.print("\n(Relatorios Professores)\nInforme a opção desejada:\n1-Lista com todos professores (ID,NOME,CPF);\n2-Professores por experiência em desenvolvimento;\n");
+        System.out.print("3-Voltar;\n4-Sair\n");
+        System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
     public int exibirMenuRelatoriosFuncionarios(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("(Relatorios Funcionarios)\n1-Lista com todos pedagogos (ID,NOME,CPF);\n2-Pedagogos ordenados por total de atendimentos;\n");
+        System.out.print("\n(Relatorios Funcionarios)\n1-Lista com todos pedagogos (ID,NOME,CPF);\n2-Pedagogos ordenados por total de atendimentos;\n");
         System.out.print("3-Voltar;\n4-Sair\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
+    }
+    public void aguarde(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nPressione a tecla enter para continuar...\n");
+        scanner.nextLine();
     }
 
 }
