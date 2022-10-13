@@ -27,4 +27,12 @@ public class Aluno extends Pessoa {
     public float getNota(){
         return this.nota;
     }
+
+    public SituacaoMatricula getSituacaoMatricula() {
+        return situacaoMatricula;
+    }
+
+    public int getAtendimentosPedagogicos() {
+        return atendimentosPedagogicos;
+    }
 }

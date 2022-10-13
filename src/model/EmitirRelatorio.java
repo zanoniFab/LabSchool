@@ -3,7 +3,7 @@ package model;
 public enum EmitirRelatorio {
     ALUNOS,
     PROFESSORES,
-    PEDAGOGOS,
+    FUNCIONARIOS,
     TODOS,
     VOLTAR,
     SAIR;

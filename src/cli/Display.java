@@ -102,8 +102,34 @@ public class Display {
 
     public int exibirMenuRelatorios() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("(Menu Relatorios)\nInforme qual categoria você deseja no relatório: \n1-Alunos;\n2-Professores;\n3-Funcionarios;\n4-Todos;\n5-Voltar;\n6-Sair\n");
-        int opcao = scanner.nextInt();
-        return opcao;
+        System.out.print("(Menu Relatorios)\nSobre qual categoria você deseja emitir um relatório: \n1-Alunos;\n2-Professores;\n3-Funcionários;\n4-Todos;\n5-Voltar;\n6-Sair\n");
+        System.out.print("Informe a opção desejada: ");
+        return scanner.nextInt();
     }
+    public int exibirMenuRelatoriosAlunos(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("(Relatorios Alunos) \nInforme a opção desejada:\n1-Lista com todos alunos (ID,NOME,CPF);\n2-Alunos por situação de matricula;");
+        System.out.print("\n3-Ordenados por total de Atendimentos Pedagogicos;\n4-Voltar;\n5-Sair\n");
+        System.out.print("Informe a opção desejada: ");
+        return scanner.nextInt();
+    }
+    public int exibirMenuRelatorioSituacaoMatricula(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Relatório de Alunos por Situação de Matrícula:\n1-Ativo;\n2-Irregular;\n3-Atendimento Pedagógico;\n4-Inativo;\n5-Todos;\n6-Voltar;\n7-Sair\n");
+        return scanner.nextInt();
+    }
+    public int exibirMenuRelatoriosProfessores(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("(Relatorios Professores)\nInforme a opção desejada:\n1-Lista com todos professores (ID,NOME,CPF);\n2-Professores por experiência em desenvolvimento;\n");
+        System.out.println("3-Voltar;\n4-Sair\n");
+        return scanner.nextInt();
+    }
+    public int exibirMenuRelatoriosFuncionarios(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("(Relatorios Funcionarios)\n1-Lista com todos pedagogos (ID,NOME,CPF);\n2-Pedagogos ordenados por total de atendimentos;\n");
+        System.out.print("3-Voltar;\n4-Sair\n");
+        System.out.print("Informe a opção desejada: ");
+        return scanner.nextInt();
+    }
+
 }

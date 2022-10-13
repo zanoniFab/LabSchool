@@ -48,12 +48,6 @@ public class RepositorioDados {
         return null;
     }
 
-    public void somaAtendimento(Aluno aluno, Funcionario funcionario) {
-        System.out.println("chegou atendimento");
-        aluno.addAtendimento();
-        funcionario.contarAtendimento();
-    }
-
     public List<Aluno> getListaAlunos() {
         return listaAlunos;
     }
@@ -70,14 +64,3 @@ public class RepositorioDados {
         return listaPessoas;
     }
 }
-
-
-
-// RF06 - Listagem de Pessoas: Listar todas as pessoas cadastradas, exibindo os campos
-//         código, nome e CPF.
-//         O usuário deverá informar quais categorias de pessoas deseja listar dentre as opções
-//         abaixo:
-//         ○ Alunos
-//         ○ Professores
-//         ○ Pedagogos
-//         ○ Todos
