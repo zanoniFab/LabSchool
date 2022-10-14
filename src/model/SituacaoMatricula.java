@@ -4,11 +4,13 @@ public enum SituacaoMatricula {
     ATIVO,
     IRREGULAR,
     ATENDIMENTO_PEDAGOGICO,
-    INATIVO;
+    INATIVO,
+    TODOS,
+    VOLTAR,
+    SAIR;
 
     public static SituacaoMatricula obterCodigo(int opcao) {
         SituacaoMatricula[] listaOpcoes = SituacaoMatricula.values();
         return listaOpcoes[opcao - 1];
     }
 }
-//poder mudar a situação sempre que necessário
