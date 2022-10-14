@@ -1,12 +1,7 @@
 package cli;
-
 import model.*;
-import repository.RepositorioDados;
-
-import javax.sound.midi.Soundbank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
 
 public class Display {
@@ -16,7 +11,7 @@ public class Display {
     }
 
     public void exibirMenuCadastro() {
-        System.out.printf("\n(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Funcionário;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
+        System.out.printf("\n(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Pedagogo;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
     }
 
     public OpcoesMenu obterOpcao() {
@@ -74,10 +69,10 @@ public class Display {
         return professor;
     }
 
-    public Funcionario cadastrarFuncionario(Pessoa pessoa) {
-        Funcionario funcionario = new Funcionario(pessoa);
-        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n", funcionario.getCodigo());
-        return funcionario;
+    public Pedagogo cadastrarPedagogo(Pessoa pessoa) {
+        Pedagogo pedagogo = new Pedagogo(pessoa);
+        System.out.printf("Cadastro realizado com sucesso! ID FUNCIONARIO: %d\n", pedagogo.getCodigo());
+        return pedagogo;
     }
 
     public int[] receberDadosAtendimento() {
@@ -102,14 +97,8 @@ public class Display {
 
     public int exibirMenuRelatorios() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("\n(Menu Relatorios)\nSobre qual categoria você deseja emitir um relatório: \n1-Alunos;\n2-Professores;\n3-Funcionários;\n4-Todos;\n5-Voltar;\n6-Sair\n");
-        System.out.print("Informe a opção desejada: ");
-        return scanner.nextInt();
-    }
-    public int exibirMenuRelatoriosAlunos(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\n(Relatorios Alunos) \nInforme a opção desejada:\n1-Lista com todos alunos (ID,NOME,CPF);\n2-Alunos por situação de matricula;");
-        System.out.print("\n3-Ordenados por total de Atendimentos Pedagogicos;\n4-Voltar;\n5-Sair\n");
+        System.out.print("\n(Menu Relatorios)\nEscolha qual relat[orio você deseja emitir:\n1-Listagem com todas as pessoas (ID, NOME, CPF)\n2-Relatorio alunos por situação de matricula;\n");
+        System.out.print("3-Relatório de Professores por experiencia em desenvolvimento;\n4-Relatórios de alunos por numero de atendimentos;\n5-Relatório de pedagogos por número de atendimentos;\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
@@ -121,15 +110,8 @@ public class Display {
     }
     public int exibirMenuRelatoriosProfessores(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("\n(Relatorios Professores)\nInforme a opção desejada:\n1-Lista com todos professores (ID,NOME,CPF);\n2-Professores por experiência em desenvolvimento;\n");
-        System.out.print("3-Voltar;\n4-Sair\n");
-        System.out.print("Informe a opção desejada: ");
-        return scanner.nextInt();
-    }
-    public int exibirMenuRelatoriosFuncionarios(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\n(Relatorios Funcionarios)\n1-Lista com todos pedagogos (ID,NOME,CPF);\n2-Pedagogos ordenados por total de atendimentos;\n");
-        System.out.print("3-Voltar;\n4-Sair\n");
+        System.out.print("\n(Relatorios Professores EXP)\nInforme a opção desejada:\n1-FRONT-END;\n2-BACK-END;\n3-FULL-STACK;\n4-Todos;\n");
+        System.out.print("5-Voltar;\n6-Sair\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
     }
@@ -139,4 +121,10 @@ public class Display {
         scanner.nextLine();
     }
 
+    public int exibirMenuRelatorioPessoas() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\n(Relatorios Pessoas)\nQual categoria você deseja no relatório?\n1-Alunos;\n2-Professores;\n3-Pedagogos;\n4-Todos;\n5-Voltar;\n6-Sair;\n");
+        System.out.print("Informe a opção desejada: ");
+        return scanner.nextInt();
+    }
 }

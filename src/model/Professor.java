@@ -15,24 +15,8 @@ public class Professor extends Pessoa {
     public FormacaoAcademica getFormacaoAcademica() {
         return formacaoAcademica;
     }
-
-    public void setFormacaoAcademica(FormacaoAcademica formacaoAcademica) {
-        this.formacaoAcademica = formacaoAcademica;
-    }
-
     public ExperienciaDesenvolvimento getExpDesenvolvimento() {
-        return expDesenvolvimento;
+        return this.expDesenvolvimento;
     }
-
-    public void setExpDesenvolvimento(ExperienciaDesenvolvimento expDesenvolvimento) {
-        this.expDesenvolvimento = expDesenvolvimento;
-    }
-
-    public String getEstado() {
-        return String.valueOf(this.estado);
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+    public String getEstado() {return String.valueOf(this.estado);}
 }

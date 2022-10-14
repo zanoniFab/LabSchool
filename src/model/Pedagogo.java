@@ -1,6 +1,6 @@
 package model;
 
-public class Funcionario extends Pessoa implements Comparable<Funcionario> {
+public class Pedagogo extends Pessoa implements Comparable<Pedagogo> {
     private Integer totalAtendimentos;
 
     public void contarAtendimento() {
@@ -8,11 +8,11 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
     }
 
     @Override
-    public int compareTo (Funcionario funcionario){
-        return funcionario.totalAtendimentos.compareTo(this.totalAtendimentos);
+    public int compareTo (Pedagogo pedagogo){
+        return pedagogo.totalAtendimentos.compareTo(this.totalAtendimentos);
     }
 
-    public Funcionario(Pessoa pessoa) {
+    public Pedagogo(Pessoa pessoa) {
         super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
         this.totalAtendimentos = 0;
     }
