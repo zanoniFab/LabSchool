@@ -1,21 +1,21 @@
+import Exceptions.LabException;
 import cli.Display;
 import model.*;
 import repository.RepositorioDados;
-
 import java.util.Collections;
 import java.util.List;
 
 public class Aplicacao {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LabException {
         RepositorioDados repositorioDados = new RepositorioDados();
         repositorioDados.testes();
         Display display = new Display();
         menuPrincipal(display, repositorioDados);
     }
 
-    private static void menuPrincipal(Display display, RepositorioDados repositorioDados) {
+    private static void menuPrincipal(Display display, RepositorioDados repositorioDados) throws LabException {
         display.exibirMenuPrincipal();
-        OpcoesMenu opcao = display.obterOpcao();
+        OpcoesMenu opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuPrincipal());
         while (opcao != OpcoesMenu.SAIR) {
             switch (opcao) {
                 case INCLUIR_CADASTRO:
@@ -40,27 +40,28 @@ public class Aplicacao {
         }
         System.exit(0);
     }
-    private static void menuCadastro(Display display, RepositorioDados repositorioDados) {
+    private static void menuCadastro(Display display, RepositorioDados repositorioDados) throws LabException {
         display.exibirMenuCadastro();
-        OpcoesMenu opcao = display.obterOpcao();
+        OpcoesMenu opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuCadastro());
         while (opcao != OpcoesMenu.VOLTAR) {
             switch (opcao) {
                 case INCLUIR_ALUNO: //RF01 - CADASTRO DE ALUNO
-                    repositorioDados.addAluno(display.cadastrarAluno(display.cadastrarPessoa()));
+                    repositorioDados.addAluno(display.cadastrarAluno(display.cadastrarPessoa(repositorioDados)));
                     display.aguarde();
                     break;
                 case INCLUIR_PROFESSOR: //RF03 CADASTRO DE PROFESSOR
-                    repositorioDados.addProfessor(display.cadastrarProfessor(display.cadastrarPessoa()));
+                    repositorioDados.addProfessor(display.cadastrarProfessor(display.cadastrarPessoa(repositorioDados)));
                     display.aguarde();
                     break;
                 case INCLUIR_PEDAGOGO: //RF04-CADASTRO DE PEDAGOGO
-                    repositorioDados.addFuncionario(display.cadastrarPedagogo(display.cadastrarPessoa()));
+                    repositorioDados.addFuncionario(display.cadastrarPedagogo(display.cadastrarPessoa(repositorioDados)));
                     display.aguarde();
                     break;
                 case ALTERAR_SITUACAO_MATRICULA_ALUNO: //RF02 - ATUALIZAÇÃO DA SITUAÇÃO DA MATRÍCULA DE ALUNO
                     int[] dadosRecebidos = display.receberDadosAlteracaoMatricula();
                     Aluno aluno = repositorioDados.getAlunoPorId(dadosRecebidos[0]);
-                    aluno.alterarSituacaoMatricula(SituacaoMatricula.obterCodigo(dadosRecebidos[1]));
+                    display.confirmacaoOperacao(aluno.alterarSituacaoMatricula
+                            (SituacaoMatricula.obterCodigo(dadosRecebidos[1])));
                     display.aguarde();
                     break;
                 default:
@@ -109,29 +110,32 @@ public class Aplicacao {
                 case ALUNOS:
                     List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
                     for (Aluno aluno : listaAlunos) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getCpf());
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getCpf());
                     }
                     display.aguarde();
                     break;
                 case PROFESSORES:
                     List<Professor> listaProfessores = repositorioDados.getListaProfessores();
                     for (Professor professor : listaProfessores) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]\n", professor.getCodigo(), professor.getNome(), professor.getCpf());
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", professor.getCodigo(), professor.getNome(), professor.getCpf());
                     }
                     display.aguarde();
                     break;
                 case PEDAGOGOS:
                     List<Pedagogo> listaPedagogos = repositorioDados.getListaPedagogo();
                     for (Pedagogo pedagogo : listaPedagogos) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]\n", pedagogo.getCodigo(), pedagogo.getNome(), pedagogo.getCpf());
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pedagogo.getCodigo(), pedagogo.getNome(), pedagogo.getCpf());
                     }
                     display.aguarde();
                     break;
                 case TODOS:
+                    System.out.println("case todos");
                     List<Pessoa> listaPessoas = repositorioDados.getListaPessoas();
                     for (Pessoa pessoa : listaPessoas) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %d;]\n", pessoa.getCodigo(), pessoa.getNome(), pessoa.getCpf());
+                        System.out.println("case todos entrou no for");
+                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pessoa.getCodigo(), pessoa.getNome(), pessoa.getCpf());
                     }
+                    System.out.println("case todos saiu o for");
                     display.aguarde();
                     break;
                 case SAIR:

@@ -13,7 +13,7 @@ public class Pedagogo extends Pessoa implements Comparable<Pedagogo> {
     }
 
     public Pedagogo(Pessoa pessoa) {
-        super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
+        super(pessoa.getCodigo(),pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
         this.totalAtendimentos = 0;
     }
 
