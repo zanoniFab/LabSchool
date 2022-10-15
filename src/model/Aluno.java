@@ -8,7 +8,7 @@ public class Aluno extends Pessoa implements Comparable<Aluno> {
     private float nota;
     private Integer atendimentosPedagogicos=0;
     public Aluno(Pessoa pessoa, float nota, SituacaoMatricula situacaoMatricula) {
-        super(pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
+        super(pessoa.getCodigo(),pessoa.getNome(), pessoa.getCpf(), pessoa.getTelefone(), pessoa.getDataNascimento());
         this.situacaoMatricula=situacaoMatricula;
         this.nota=nota;
     }
@@ -24,9 +24,9 @@ public class Aluno extends Pessoa implements Comparable<Aluno> {
                 ", atendimentosPedagogicos=" + atendimentosPedagogicos +
                 "} " + super.toString();}
     public void addAtendimento(){this.atendimentosPedagogicos++;}
-    public void alterarSituacaoMatricula(SituacaoMatricula situacao){
+    public boolean alterarSituacaoMatricula(SituacaoMatricula situacao){
         this.situacaoMatricula=situacao;
-        System.out.print("\nMatrícula atualizada com sucesso!\n");
+        return true;
     }
     public float getNota(){
         return this.nota;
