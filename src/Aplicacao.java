@@ -50,6 +50,7 @@ public class Aplicacao {
             registraAtendimento(display,repositorioDados);
         }else {
             aluno.addAtendimento();
+            aluno.alterarSituacaoMatricula(SituacaoMatricula.ATENDIMENTO_PEDAGOGICO);
             pedagogo.contarAtendimento();
             display.printVerdeMensagem("Atendimento registrado com sucesso!");
             display.aguarde();
