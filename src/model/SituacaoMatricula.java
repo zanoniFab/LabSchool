@@ -13,4 +13,5 @@ public enum SituacaoMatricula {
         SituacaoMatricula[] listaOpcoes = SituacaoMatricula.values();
         return listaOpcoes[opcao - 1];
     }
+
 }

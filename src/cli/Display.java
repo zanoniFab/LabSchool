@@ -13,6 +13,7 @@ public class Display {
     public void exibirMenuPrincipal() {
         System.out.print("\n(Menu Principal)\n1-Incluir/Alterar Cadastro;\n2-Registrar Atendimento;\n3-Emitir Relatórios\n9-Sair;\n");
     }
+
     public void exibirMenuCadastro() {
         System.out.print("\n(Menu Cadastro)\n4-Incluir Aluno;\n5-Incluir Professor;\n6-Incluir Pedagogo;\n7-Alterar Situação Matricula Aluno;\n8-Voltar\n9-Sair\n");
     }
@@ -30,7 +31,7 @@ public class Display {
         String cpf = receberCpf();
         Long telefone = receberTelefone();
         LocalDate dataDeNascimento = receberDataNascimento();
-        return new Pessoa(repositorioDados.criarCodigo(),nome, cpf, telefone, dataDeNascimento);
+        return new Pessoa(repositorioDados.criarCodigo(), nome, cpf, telefone, dataDeNascimento);
     }
 
     public Aluno cadastrarAluno(Pessoa pessoa) {
@@ -71,17 +72,6 @@ public class Display {
         ids[1] = scanner.nextInt();
         return ids;
     }
-
-    public int[] receberDadosAlteracaoMatricula() {
-        int[] dados = new int[2];
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Informe o ID do aluno: ");
-        dados[0] = scanner.nextInt();
-        System.out.println("Informe qual a situação atual da matrícula (1-Ativo; 2-Irregular; 3-Atendimento Pedagogico; 4-Inativo): ");
-        dados[1] = scanner.nextInt();
-        return dados;
-    }
-
     public int exibirMenuRelatorios() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\n(Menu Relatorios)\nEscolha qual relat[orio você deseja emitir:\n1-Listagem com todas as pessoas (ID, NOME, CPF)\n2-Relatorio alunos por situação de matricula;\n");
@@ -117,6 +107,9 @@ public class Display {
         System.out.print("\n(Relatorios Pessoas)\nQual categoria você deseja no relatório?\n1-Alunos;\n2-Professores;\n3-Pedagogos;\n4-Todos;\n5-Voltar;\n6-Sair;\n");
         System.out.print("Informe a opção desejada: ");
         return scanner.nextInt();
+    }
+    public void exibirMensagem(){
+        System.out.print("Não há nada para mostrar.");
     }
 
     private String receberNome() {
@@ -244,105 +237,178 @@ public class Display {
             throw new LabException("Código inválido!\n");
         }
     }
-    private int receberOpcaoFormacao(){
+
+    private int receberOpcaoFormacao() {
         try {
             return validarOpcaoFormacao();
-        } catch (LabException e){
+        } catch (LabException e) {
             System.out.print(e.getMessage());
             return receberOpcaoFormacao();
         }
     }
+
     private int validarOpcaoFormacao() throws LabException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe a formação academica (1-Graduação incompleta; 2-Graduação completa; 3-Mestrado; 4-Doutorado;): ");
         String opcaoInformada = scanner.nextLine();
-        if (opcaoInformada.matches("1|2|3|4")){
-            System.out.println(opcaoInformada);
-            System.out.println(Integer.parseInt(opcaoInformada));
+        if (opcaoInformada.matches("1|2|3|4")) {
             return Integer.parseInt(opcaoInformada);
         } else {
             throw new LabException("Opção inválida!\n");
         }
     }
+
     private int receberOpcaoExp() {
-        try{
+        try {
             return validarOpcaoExp();
-        } catch (LabException e){
+        } catch (LabException e) {
             System.out.print(e.getMessage());
             return receberOpcaoExp();
         }
     }
+
     private int validarOpcaoExp() throws LabException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe a experiencia em desenvolvimento (1-Front-end; 2-Back-end; 3-Full-stack): ");
         String opcaoInformada = scanner.nextLine();
-        if (opcaoInformada.matches("1|2|3")){
+        if (opcaoInformada.matches("1|2|3")) {
             return Integer.parseInt(opcaoInformada);
         } else {
             throw new LabException("Opção inválida!");
         }
     }
+
     private String receberOpcaoAtividade() {
-        try{
+        try {
             return validarOpcaoAtividade();
-        } catch (LabException e){
+        } catch (LabException e) {
             System.out.print(e.getMessage());
             return receberOpcaoAtividade();
         }
     }
+
     private String validarOpcaoAtividade() throws LabException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Informe o estado do professor Ativo/Inativo (A/I): ");
         String opcaoInformada = scanner.nextLine().toLowerCase();
-        if (opcaoInformada.matches("a|i")){
+        if (opcaoInformada.matches("a|i")) {
             return opcaoInformada;
         } else {
-            throw new LabException("Opção inválida!");
+            throw new LabException("Opção inválida! Informe A para ativo ou I para Inativo.");
         }
     }
 
     public void confirmacaoOperacao(boolean executou) {
-        if (executou){
+        if (executou) {
             System.out.print("Operação realizada com sucesso!");
         } else {
             System.out.print("Algo de errado aconteceu...");
         }
     }
-    public int receberOpcaoMenuPrincipal(){
+
+    public int receberOpcaoMenuPrincipal() {
         try {
             return validarOpcaoMenuPrincipal();
-        } catch(LabException e){
+        } catch (LabException e) {
             System.out.print(e.getMessage());
             return receberOpcaoMenuPrincipal();
         }
     }
+
     private static int validarOpcaoMenuPrincipal() throws LabException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nInforme a opção desejada: ");
         String opcaoInformada = scanner.nextLine();
-        if (opcaoInformada.matches("1|2|3|9")){
+        if (opcaoInformada.matches("1|2|3|9")) {
             return Integer.parseInt(opcaoInformada);
-        } else{
+        } else {
             throw new LabException("Opção inválida! Tente novamente.");
         }
     }
-    public int receberOpcaoMenuCadastro(){
+
+    public int receberOpcaoMenuCadastro() {
         try {
             return validarOpcaoMenuCadastro();
-        } catch (LabException e){
+        } catch (LabException e) {
             System.out.print(e.getMessage());
             return receberOpcaoMenuCadastro();
         }
 
     }
+
     private static int validarOpcaoMenuCadastro() throws LabException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nInforme a opção desejada: ");
         String opcaoInformada = scanner.nextLine();
-        if (opcaoInformada.matches("4|5|6|7|8|9")){
+        if (opcaoInformada.matches("4|5|6|7|8|9")) {
             return Integer.parseInt(opcaoInformada);
         } else {
             throw new LabException("Opção inválida! Tente novamente.");
+        }
+    }
+    public int receberAlunoAlteracaoMatricula() {
+        try {
+            return validarIdAluno();
+        } catch (LabException e) {
+            System.out.print(e.getMessage());
+            return receberAlunoAlteracaoMatricula();
+        }
+    }
+
+    private int validarIdAluno() throws LabException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Informe o ID do aluno: ");
+        String idAluno = scanner.nextLine();
+        if (idAluno.matches("[0-9]")) {
+            return Integer.parseInt(idAluno);
+        } else {
+            throw new LabException("ID inválido. Informe somente números.\n");
+        }
+    }
+
+    public String confirmaAluno(Aluno aluno) {
+        System.out.printf("O aluno informado foi:\n[ID: %d; Nome: %s; CPF: %s; Situação Matrícula: %s]\n",aluno.getCodigo(),aluno.getNome(),aluno.getCpf(),aluno.getSituacaoMatricula());
+        return receberOpcaoConfirmacao();
+    }
+
+    private static String receberOpcaoConfirmacao() {
+        try {
+            return validarOpcaoConfirmacao();
+        } catch (LabException e) {
+            System.out.print(e.getMessage());
+            return receberOpcaoConfirmacao();
+        }
+    }
+
+    private static String validarOpcaoConfirmacao() throws LabException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nConfirma alteração [S/N]? ");
+        String opcaoInformada = scanner.nextLine().toUpperCase();
+        if (opcaoInformada.matches("S|N")) {
+            return opcaoInformada;
+        } else {
+            throw new LabException("Opção inválida! Pressione S para confirmar alteração ou N para alterar o aluno.");
+        }
+
+    }
+
+    public int receberOpcaoAlteracaoMatricula() {
+        try {
+            return validarOpcaoAlteracaoMatricula();
+        } catch (LabException e){
+            System.out.print(e.getMessage());
+            return receberOpcaoAlteracaoMatricula();
+        }
+    }
+    private int validarOpcaoAlteracaoMatricula() throws LabException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nPara qual situação você deseja alterar:\n");
+        System.out.print("1- ATIVO;\n2-IRREGULAR;\n3-ATENDIMENTO PEDAGOGICO;\n4-INATIVO\nInforme a opção desejada: ");
+        String opcaoInformada = scanner.nextLine();
+        if (opcaoInformada.matches("1|2|3|4")){
+            return Integer.parseInt(opcaoInformada);
+        } else {
+            throw new LabException("Opção Inválida! Informe um número de 1 a 4.\n");
         }
     }
 }

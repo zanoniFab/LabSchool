@@ -31,11 +31,9 @@ public class Aluno extends Pessoa implements Comparable<Aluno> {
     public float getNota(){
         return this.nota;
     }
-
     public SituacaoMatricula getSituacaoMatricula() {
         return situacaoMatricula;
     }
-
     public int getAtendimentosPedagogicos() {
         return atendimentosPedagogicos;
     }

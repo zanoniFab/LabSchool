@@ -2,13 +2,14 @@ import Exceptions.LabException;
 import cli.Display;
 import model.*;
 import repository.RepositorioDados;
+
 import java.util.Collections;
 import java.util.List;
 
 public class Aplicacao {
     public static void main(String[] args) throws LabException {
         RepositorioDados repositorioDados = new RepositorioDados();
-        repositorioDados.testes();
+        //repositorioDados.testes();
         Display display = new Display();
         menuPrincipal(display, repositorioDados);
     }
@@ -36,12 +37,13 @@ public class Aplicacao {
                     break;
             }
             display.exibirMenuPrincipal();
-            opcao = display.obterOpcao();
+            opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuPrincipal());
         }
         System.exit(0);
     }
+
     private static void menuCadastro(Display display, RepositorioDados repositorioDados) throws LabException {
-        display.exibirMenuCadastro();
+        display.exibirMenuCadastro();//só exibe o menu
         OpcoesMenu opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuCadastro());
         while (opcao != OpcoesMenu.VOLTAR) {
             switch (opcao) {
@@ -58,10 +60,7 @@ public class Aplicacao {
                     display.aguarde();
                     break;
                 case ALTERAR_SITUACAO_MATRICULA_ALUNO: //RF02 - ATUALIZAÇÃO DA SITUAÇÃO DA MATRÍCULA DE ALUNO
-                    int[] dadosRecebidos = display.receberDadosAlteracaoMatricula();
-                    Aluno aluno = repositorioDados.getAlunoPorId(dadosRecebidos[0]);
-                    display.confirmacaoOperacao(aluno.alterarSituacaoMatricula
-                            (SituacaoMatricula.obterCodigo(dadosRecebidos[1])));
+                    chamarAlterarSituacaoMatricula(display, repositorioDados);
                     display.aguarde();
                     break;
                 default:
@@ -69,28 +68,39 @@ public class Aplicacao {
                     break;
             }
             display.exibirMenuCadastro();
-            opcao = display.obterOpcao();
+            opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuCadastro());
         }
     }
+
+    private static void chamarAlterarSituacaoMatricula(Display display, RepositorioDados repositorioDados) {
+        Aluno aluno = repositorioDados.getAlunoPorId(display.receberAlunoAlteracaoMatricula());
+        if (display.confirmaAluno(aluno).equals("S")) {
+            display.confirmacaoOperacao(aluno.alterarSituacaoMatricula
+                    (SituacaoMatricula.obterCodigo(display.receberOpcaoAlteracaoMatricula())));
+        } else {
+            chamarAlterarSituacaoMatricula(display, repositorioDados);
+        }
+    }
+
     private static void menuEmitirRelatorio(Display display, RepositorioDados repositorioDados) {
         EmitirRelatorio opcaoRelatorio = EmitirRelatorio.obterCodigo(display.exibirMenuRelatorios());
         while (opcaoRelatorio != EmitirRelatorio.VOLTAR) {
             switch (opcaoRelatorio) {
                 case LISTAGEM_PESSOAS: //RF06- LISTAGEM DE PESSOAS
-                    menuRelatoriosPessoas(display,repositorioDados);
+                    menuRelatoriosPessoas(display, repositorioDados);
                     break;
                 case ALUNOS_SITUACAO_MATRICULA: //RF07-RELATORIO DOS ALUNOS
                     menuRelatoriosAlunosSituacaoMatricula(display, repositorioDados);
                     break;
                 case PROFESSORES_EXPERIENCIA_DESENVOLVIMENTO: //RF08-RELATORIOS DOS PROFESSORES
-                    menuRelatoriosProfessoresExperiencia(display,repositorioDados);
+                    menuRelatoriosProfessoresExperiencia(display, repositorioDados);
                     break;
                 case ALUNOS_ORDENADOS_ATENDIMENTOS_PEDAGOGICOS: //RF09-RELATORIO DE ALUNOS COM MAIS ATENDIMENTOS PEDAGOGICOS
-                    emitirRelatorioAtendimentoAluno(repositorioDados);
+                    emitirRelatorioAtendimentoAluno(repositorioDados, display);
                     display.aguarde();
                     break;
                 case PEDAGOGOS_ORDENADOS_ATENDIMENTO_PEDAGOGICO: //RF10-PEDAGOGOS COM MAIS ATENDIMENTOS PEDAGOGICOS
-                    emitirRelatorioAtendimentoPedagogo(repositorioDados);
+                    emitirRelatorioAtendimentoPedagogo(repositorioDados,display);
                     display.aguarde();
                     break;
                 case SAIR:
@@ -103,39 +113,53 @@ public class Aplicacao {
             opcaoRelatorio = EmitirRelatorio.obterCodigo(display.exibirMenuRelatorios());
         }
     }
+
     private static void menuRelatoriosPessoas(Display display, RepositorioDados repositorioDados) {
         RelatoriosPessoas opcaoRelatorioPessoas = RelatoriosPessoas.obterCodigo(display.exibirMenuRelatorioPessoas());
-        while (opcaoRelatorioPessoas != RelatoriosPessoas.VOLTAR){
-            switch (opcaoRelatorioPessoas){
+        while (opcaoRelatorioPessoas != RelatoriosPessoas.VOLTAR) {
+            switch (opcaoRelatorioPessoas) {
                 case ALUNOS:
                     List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
-                    for (Aluno aluno : listaAlunos) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getCpf());
+                    if (listaAlunos.isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Aluno aluno : listaAlunos) {
+                            System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getCpf());
+                        }
                     }
                     display.aguarde();
                     break;
                 case PROFESSORES:
                     List<Professor> listaProfessores = repositorioDados.getListaProfessores();
-                    for (Professor professor : listaProfessores) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", professor.getCodigo(), professor.getNome(), professor.getCpf());
+                    if (listaProfessores.isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Professor professor : listaProfessores) {
+                            System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", professor.getCodigo(), professor.getNome(), professor.getCpf());
+                        }
                     }
                     display.aguarde();
                     break;
                 case PEDAGOGOS:
                     List<Pedagogo> listaPedagogos = repositorioDados.getListaPedagogo();
-                    for (Pedagogo pedagogo : listaPedagogos) {
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pedagogo.getCodigo(), pedagogo.getNome(), pedagogo.getCpf());
+                    if (listaPedagogos.isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Pedagogo pedagogo : listaPedagogos) {
+                            System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pedagogo.getCodigo(), pedagogo.getNome(), pedagogo.getCpf());
+                        }
                     }
                     display.aguarde();
                     break;
                 case TODOS:
-                    System.out.println("case todos");
                     List<Pessoa> listaPessoas = repositorioDados.getListaPessoas();
-                    for (Pessoa pessoa : listaPessoas) {
-                        System.out.println("case todos entrou no for");
-                        System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pessoa.getCodigo(), pessoa.getNome(), pessoa.getCpf());
+                    if (listaPessoas.isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Pessoa pessoa : listaPessoas) {
+                            System.out.printf("[ID: %d; Nome: %s; CPF: %s;]\n", pessoa.getCodigo(), pessoa.getNome(), pessoa.getCpf());
+                        }
                     }
-                    System.out.println("case todos saiu o for");
                     display.aguarde();
                     break;
                 case SAIR:
@@ -145,20 +169,25 @@ public class Aplicacao {
             opcaoRelatorioPessoas = RelatoriosPessoas.obterCodigo(display.exibirMenuRelatorioPessoas());
         }
     }
+
     private static void menuRelatoriosAlunosSituacaoMatricula(Display display, RepositorioDados repositorioDados) {
-        SituacaoMatricula opcaoSituacao= SituacaoMatricula.obterCodigo(display.exibirMenuRelatorioSituacaoMatricula());
+        SituacaoMatricula opcaoSituacao = SituacaoMatricula.obterCodigo(display.exibirMenuRelatorioSituacaoMatricula());
         while (opcaoSituacao != SituacaoMatricula.VOLTAR) {
             switch (opcaoSituacao) {
                 case ATIVO:
                 case IRREGULAR:
                 case ATENDIMENTO_PEDAGOGICO:
                 case INATIVO:
-                    emitirRelatorioSituacaoMatricula(opcaoSituacao, repositorioDados);
+                    emitirRelatorioSituacaoMatricula(opcaoSituacao, repositorioDados, display);
                     display.aguarde();
                     break;
                 case TODOS:
-                    for (Aluno aluno : repositorioDados.getListaAlunos()) {
-                        System.out.printf("[ID: %d; Nome: %s; Nota: %.2f; Total Atendimentos Pedagogicos: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getNota(), aluno.getAtendimentosPedagogicos());
+                    if (repositorioDados.getListaAlunos().isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Aluno aluno : repositorioDados.getListaAlunos()) {
+                            System.out.printf("[ID: %d; Nome: %s; Nota: %.2f; Total Atendimentos Pedagogicos: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getNota(), aluno.getAtendimentosPedagogicos());
+                        }
                     }
                     display.aguarde();
                     break;
@@ -172,27 +201,38 @@ public class Aplicacao {
             opcaoSituacao = SituacaoMatricula.obterCodigo(display.exibirMenuRelatorioSituacaoMatricula());
         }
     }
-    private static void emitirRelatorioSituacaoMatricula(SituacaoMatricula opcaoInformada, RepositorioDados repositorioDados) {
+
+    private static void emitirRelatorioSituacaoMatricula(SituacaoMatricula opcaoInformada, RepositorioDados repositorioDados, Display display) {
         List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
-        for (Aluno aluno : listaAlunos) {
-            if (opcaoInformada == aluno.getSituacaoMatricula()) {
-                System.out.printf("[ID: %d; Nome: %s; Nota: %.2f; Total Atendimentos Pedagogicos: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getNota(), aluno.getAtendimentosPedagogicos());
+        if (listaAlunos.isEmpty()) {
+            display.exibirMensagem();
+        } else {
+            for (Aluno aluno : listaAlunos) {
+                if (opcaoInformada == aluno.getSituacaoMatricula()) {
+                    System.out.printf("[ID: %d; Nome: %s; Nota: %.2f; Total Atendimentos Pedagogicos: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getNota(), aluno.getAtendimentosPedagogicos());
+                }
             }
         }
     }
+
     private static void menuRelatoriosProfessoresExperiencia(Display display, RepositorioDados repositorioDados) {
         ExperienciaDesenvolvimento opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
-        while (opcaoExperiencia != ExperienciaDesenvolvimento.VOLTAR){
-            switch (opcaoExperiencia){
+        while (opcaoExperiencia != ExperienciaDesenvolvimento.VOLTAR) {
+            switch (opcaoExperiencia) {
                 case FRONT_END:
                 case BACK_END:
                 case FULL_STACK:
-                    emitirRelatorioExperiencia(opcaoExperiencia,repositorioDados);
+                    emitirRelatorioExperiencia(opcaoExperiencia, repositorioDados, display);
+                    display.aguarde();
                     break;
                 case TODOS:
                     List<Professor> listaProfessor = repositorioDados.getListaProfessores();
-                    for(Professor professor : listaProfessor){
-                        System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
+                    if (listaProfessor.isEmpty()) {
+                        display.exibirMensagem();
+                    } else {
+                        for (Professor professor : listaProfessor) {
+                            System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(), professor.getNome(), professor.getFormacaoAcademica(), professor.getExpDesenvolvimento(), professor.getEstado());
+                        }
                     }
                     display.aguarde();
                     break;
@@ -202,31 +242,43 @@ public class Aplicacao {
             opcaoExperiencia = ExperienciaDesenvolvimento.obterCodigo(display.exibirMenuRelatoriosProfessores());
         }
     }
-    private static void emitirRelatorioExperiencia(ExperienciaDesenvolvimento opcaoExperiencia, RepositorioDados repositorioDados) {
+
+    private static void emitirRelatorioExperiencia(ExperienciaDesenvolvimento opcaoExperiencia, RepositorioDados repositorioDados, Display display) {
         List<Professor> listaProfessores = repositorioDados.getListaProfessores();
-        System.out.println(opcaoExperiencia);
-        for (Professor professor : listaProfessores) {
-            if (opcaoExperiencia == professor.getExpDesenvolvimento()) {
-                System.out.println(professor.getExpDesenvolvimento());
-                System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(),professor.getNome(),professor.getFormacaoAcademica(),professor.getExpDesenvolvimento(),professor.getEstado());
+        if (listaProfessores.isEmpty()) {
+            display.exibirMensagem();
+        } else {
+            for (Professor professor : listaProfessores) {
+                if (opcaoExperiencia == professor.getExpDesenvolvimento()) {
+                    System.out.printf("[ID: %d; Nome: %s; Formação acadêmica: %s; Experiência: %s; Estado: %s;]\n", professor.getCodigo(), professor.getNome(), professor.getFormacaoAcademica(), professor.getExpDesenvolvimento(), professor.getEstado());
+                }
             }
         }
     }
-    private static void emitirRelatorioAtendimentoAluno (RepositorioDados repositorioDados){
+
+    private static void emitirRelatorioAtendimentoAluno(RepositorioDados repositorioDados, Display display) {
         List<Aluno> listaAlunos = repositorioDados.getListaAlunos();
-        Collections.sort(listaAlunos);
-        for (Aluno aluno : listaAlunos){
-            System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n",aluno.getCodigo(),aluno.getNome(),aluno.getAtendimentosPedagogicos());
-        }
-    }
-    private static void emitirRelatorioAtendimentoPedagogo (RepositorioDados repositorioDados){
-        List<Pedagogo> listaPedagogo = repositorioDados.getListaPedagogo();
-        Collections.sort(listaPedagogo);
-        for (Pedagogo pedagogo : listaPedagogo){
-            System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n",pedagogo.getCodigo(),pedagogo.getNome(),pedagogo.getTotalAtendimentos());
+        if (listaAlunos.isEmpty()) {
+            display.exibirMensagem();
+        } else {
+            Collections.sort(listaAlunos);
+            for (Aluno aluno : listaAlunos) {
+                System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n", aluno.getCodigo(), aluno.getNome(), aluno.getAtendimentosPedagogicos());
+            }
         }
     }
 
+    private static void emitirRelatorioAtendimentoPedagogo(RepositorioDados repositorioDados, Display display) {
+        List<Pedagogo> listaPedagogo = repositorioDados.getListaPedagogo();
+        if (listaPedagogo.isEmpty()) {
+            display.exibirMensagem();
+        } else {
+            Collections.sort(listaPedagogo);
+            for (Pedagogo pedagogo : listaPedagogo) {
+                System.out.printf("[ID: %d; Nome: %s; Total Atendimentos: %d;]\n", pedagogo.getCodigo(), pedagogo.getNome(), pedagogo.getTotalAtendimentos());
+            }
+        }
+    }
 
 
 }
