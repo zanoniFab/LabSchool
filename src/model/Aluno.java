@@ -1,7 +1,4 @@
 package model;
-import java.util.*;
-
-//Nota do aluno de 0 a 10
 
 public class Aluno extends Pessoa implements Comparable<Aluno> {
     private SituacaoMatricula situacaoMatricula;
@@ -31,11 +28,9 @@ public class Aluno extends Pessoa implements Comparable<Aluno> {
     public float getNota(){
         return this.nota;
     }
-
     public SituacaoMatricula getSituacaoMatricula() {
         return situacaoMatricula;
     }
-
     public int getAtendimentosPedagogicos() {
         return atendimentosPedagogicos;
     }
