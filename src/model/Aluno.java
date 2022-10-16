@@ -1,7 +1,4 @@
 package model;
-import java.util.*;
-
-//Nota do aluno de 0 a 10
 
 public class Aluno extends Pessoa implements Comparable<Aluno> {
     private SituacaoMatricula situacaoMatricula;

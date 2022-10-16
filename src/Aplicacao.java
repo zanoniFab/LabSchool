@@ -9,7 +9,7 @@ import java.util.List;
 public class Aplicacao {
     public static void main(String[] args) throws LabException {
         RepositorioDados repositorioDados = new RepositorioDados();
-        //repositorioDados.testes();
+        repositorioDados.testes();
         Display display = new Display();
         menuPrincipal(display, repositorioDados);
     }
@@ -23,11 +23,7 @@ public class Aplicacao {
                     menuCadastro(display, repositorioDados);
                     break;
                 case REGISTRAR_ATENDIMENTO: //RF05- REALIZAÇÃO ATENDIMENTO PEDAGÓGICO
-                    int[] dadosRecebidos = display.receberDadosAtendimento();
-                    repositorioDados.getAlunoPorId(dadosRecebidos[0]).addAtendimento();
-                    repositorioDados.getPedagogoPorId(dadosRecebidos[1]).contarAtendimento();
-                    System.out.print("Atendimento registrado com sucesso!");
-                    display.aguarde();
+                    registraAtendimento(display, repositorioDados);
                     break;
                 case EMITIR_RELATORIOS:
                     menuEmitirRelatorio(display, repositorioDados);
@@ -42,8 +38,26 @@ public class Aplicacao {
         System.exit(0);
     }
 
+    private static void registraAtendimento(Display display, RepositorioDados repositorioDados) throws LabException {
+        int[] dadosRecebidos = display.receberDadosAtendimento();
+        Aluno aluno = repositorioDados.getAlunoPorId(dadosRecebidos[0]);
+        Pedagogo pedagogo = repositorioDados.getPedagogoPorId(dadosRecebidos[1]);
+        if (aluno == null){
+            display.printVermelhoMensagem("Aluno com id "+ dadosRecebidos[0] +" não encontrado!");
+            registraAtendimento(display,repositorioDados);
+        }else if(pedagogo == null){
+            display.printVermelhoMensagem("Pedagogo com id "+ dadosRecebidos[1] + " não encontrado!");
+            registraAtendimento(display,repositorioDados);
+        }else {
+            aluno.addAtendimento();
+            pedagogo.contarAtendimento();
+            display.printVerdeMensagem("Atendimento registrado com sucesso!");
+            display.aguarde();
+        }
+    }
+
     private static void menuCadastro(Display display, RepositorioDados repositorioDados) throws LabException {
-        display.exibirMenuCadastro();//só exibe o menu
+        display.exibirMenuCadastro();
         OpcoesMenu opcao = OpcoesMenu.obterCodigo(display.receberOpcaoMenuCadastro());
         while (opcao != OpcoesMenu.VOLTAR) {
             switch (opcao) {
@@ -74,11 +88,16 @@ public class Aplicacao {
 
     private static void chamarAlterarSituacaoMatricula(Display display, RepositorioDados repositorioDados) {
         Aluno aluno = repositorioDados.getAlunoPorId(display.receberAlunoAlteracaoMatricula());
-        if (display.confirmaAluno(aluno).equals("S")) {
-            display.confirmacaoOperacao(aluno.alterarSituacaoMatricula
-                    (SituacaoMatricula.obterCodigo(display.receberOpcaoAlteracaoMatricula())));
-        } else {
+        if (aluno == null){
+            display.printVermelhoMensagem("Aluno não encontrado!");
             chamarAlterarSituacaoMatricula(display, repositorioDados);
+        }else {
+            if (display.confirmaAluno(aluno).equals("S")) {
+                display.confirmacaoOperacao(aluno.alterarSituacaoMatricula
+                        (SituacaoMatricula.obterCodigo(display.receberOpcaoAlteracaoMatricula())));
+            } else {
+                chamarAlterarSituacaoMatricula(display, repositorioDados);
+            }
         }
     }
 
